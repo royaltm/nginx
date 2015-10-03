@@ -3,7 +3,7 @@
 - include: user.yml
 - include: directories.yml
 
-- name: Nginx | Make sure the Nginx build dependencies are installed
+- name: Nginx | Make sure the Nginx build dependencies are installed (Debian)
   apt:
     update_cache: yes
     pkg: "{{item}}"
@@ -12,6 +12,21 @@
     - libpcre3
     - libpcre3-dev
     - libssl-dev
+  when: ansible_os_family == "Debian"
+
+- name: Nginx | Make sure the Nginx build dependencies are installed (RedHat)
+  yum:
+    update_cache: yes
+    name: "{{item}}"
+    state: present
+  with_items:
+    - pcre
+    - pcre-devel
+    - openssl-devel
+  when: ansible_os_family == "RedHat"
+
+
+
 
 - name: Nginx | Download the Nginx source release if not yet present
   get_url:
@@ -30,35 +45,30 @@
     dest: "{{nginx_dir}}/.nginx_compilation_flags"
   register: nginx_flags
 
+- name: Nginx | Compile the Nginx source
+  shell: >
+    cd /tmp/nginx-{{nginx_source_version}} &&
+    ./configure {{nginx_source_configure_flags}} &&
+    make -j
+  when: nginx_flags.changed
+
 - name: Nginx | Kill Nginx (old threads)
   command: pkill nginx
   ignore_errors: yes
   when: nginx_flags.changed
 
-- name: Nginx | Compile the Nginx source
+- name: Nginx | Install Nginx
   shell: >
     cd /tmp/nginx-{{nginx_source_version}} &&
-    ./configure {{nginx_source_configure_flags}} &&
-    make &&
     make install
   when: nginx_flags.changed
 
-- name: Nginx | Update the symbolic link to the nginx install
-  file:
-    path: /usr/local/nginx/default
-    src: "{{nginx_source_prefix}}"
-    state: link
-    force: yes
+- include: "RedHat.yml"
+  when: ansible_os_family == "RedHat"
 
-- name: Nginx | Install the upstart init script
-  template:
-    src: nginx.init.j2
-    dest: /etc/init.d/nginx
-    owner: root
-    group: root
-    mode: 0755
-  notify:
-    - restart nginx
+- include: "Debian.yml"
+  when: ansible_os_family == "Debian"
+
 
 - name: Nginx | Register Nginx as a service
   service:

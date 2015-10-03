@@ -9,9 +9,11 @@ nginx_uid: 33
 nginx_gid: 33
 
 nginx_dir: "/etc/nginx"
-nginx_www_dir: "/srv/www"
+nginx_www_dir: "/var/lib/www"
 nginx_log_dir: "/var/log/nginx"
-nginx_pid: "/var/run/nginx.pid"
+nginx_run_dir: "/var/run/nginx"
+nginx_pid: "{{nginx_run_dir}}/nginx.pid"
+nginx_lock: "{{nginx_run_dir}}/nginx.lock"
 
 
 # nginx.conf

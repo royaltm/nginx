@@ -14,8 +14,6 @@ galaxy_info:
   - system
 
 dependencies:
-  - ANXS.hostname
-  - ANXS.apt
   - role: ANXS.build-essential
     when: nginx_install_method is defined and nginx_install_method == "source"
   - role: ANXS.perl

@@ -1,0 +1,18 @@
+- name: Nginx | Update the symbolic link to the nginx install
+  file:
+    path: /usr/local/nginx/default
+    src: "{{nginx_source_prefix}}"
+    state: link
+    force: yes
+
+- name: Nginx | Install the upstart init script
+  template:
+    src: nginx.init.Debian.j2
+    dest: /etc/init.d/nginx
+    owner: root
+    group: root
+    mode: 0755
+  notify:
+    - restart nginx
+
+
