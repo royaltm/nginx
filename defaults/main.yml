@@ -80,7 +80,7 @@ nginx_source_modules_included:
   http_echo_module: "--add-module=/tmp/echo-nginx-module-{{nginx_echo_version}}"
   google_perftools_module: "--with-google_perftools_module"
   ipv6_module: "--with-ipv6"
-  http_real_ip_module: "--with-http_realip_module"
+  http_realip_module: "--with-http_realip_module"
   http_spdy_module: "--with-http_spdy_module"
   http_perl_module: "--with-http_perl_module"
   naxsi_module: "--add-module=/tmp/naxsi-{{nginx_naxsi_version}}/naxsi_src"
