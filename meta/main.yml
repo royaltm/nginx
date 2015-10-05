@@ -16,7 +16,7 @@ galaxy_info:
 dependencies:
   - role: ANXS.build-essential
     when: nginx_install_method is defined and nginx_install_method == "source"
-  - role: ANXS.perl
-    when: nginx_install_method is defined and nginx_install_method == "source"
+#  - role: ANXS.perl
+#    when: nginx_install_method is defined and nginx_install_method == "source"
   - role: ANXS.monit
     when: monit_protection is defined and monit_protection == true
