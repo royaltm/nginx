@@ -54,6 +54,7 @@ nginx_access_logs:
     filename: "access.log"
 
 # default site
+nginx_default_hostname: "{{inventory_hostname}}"
 nginx_default_root: "{{nginx_www_dir}}/default"
 nginx_default_enable: yes
 
