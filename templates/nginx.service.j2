@@ -5,6 +5,8 @@ After=syslog.target network.target remote-fs.target nss-lookup.target
 [Service]
 Type=forking
 PIDFile={{nginx_pid}}
+ExecStartPre=/bin/mkdir -p {{nginx_run_dir}} -m 755
+ExecStartPre=/bin/chown {{nginx_user}}:{{nginx_group}} {{nginx_run_dir}}
 ExecStartPre=/usr/sbin/nginx -t -c {{nginx_dir}}/nginx.conf
 ExecStart=/usr/sbin/nginx -c {{nginx_dir}}/nginx.conf
 ExecReload=/usr/sbin/nginx -c {{nginx_dir}}/nginx.conf -s reload
