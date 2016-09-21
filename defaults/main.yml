@@ -7,6 +7,7 @@ nginx_user: www-data
 nginx_group: www-data
 nginx_uid: 33
 nginx_gid: 33
+nginx_limit_nofile: "{{nginx_worker_connections}}"
 
 nginx_dir: "/etc/nginx"
 nginx_www_dir: "/var/lib/www"
@@ -14,7 +15,6 @@ nginx_log_dir: "/var/log/nginx"
 nginx_run_dir: "/var/run/nginx"
 nginx_pid: "{{nginx_run_dir}}/nginx.pid"
 nginx_lock: "{{nginx_run_dir}}/nginx.lock"
-
 
 # nginx.conf
 nginx_worker_processes: 4

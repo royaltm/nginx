@@ -4,6 +4,7 @@ After=syslog.target network.target remote-fs.target nss-lookup.target
 
 [Service]
 Type=forking
+LimitNOFILE={{nginx_limit_nofile}}
 PIDFile={{nginx_pid}}
 ExecStartPre=/bin/mkdir -p {{nginx_run_dir}} -m 755
 ExecStartPre=/bin/chown {{nginx_user}}:{{nginx_group}} {{nginx_run_dir}}
